@@ -1,4 +1,4 @@
-# Secure Remote CLI — Quick Setup
+# Window CLI Quick Setup
 
 ## Project
 
@@ -24,10 +24,6 @@ Generate TLS files:
 
 ```bash
 openssl genrsa -out server.key 2048
-```
-
-```bash
-openssl req -new -x509 -key server.key -out server.crt -days 365 -subj "/CN=SecureRemoteCLI"
 ```
 
 Generate a token:
