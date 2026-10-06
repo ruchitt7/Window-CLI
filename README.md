@@ -5,7 +5,7 @@
 - Kali Linux = Server
 - Windows = Client
 - Protocol = TCP + TLS
-- Port = 8443
+- Port = 8444
 - Final Windows file = `client.exe`
 
 > Use only on systems you own or are authorized to test.
@@ -15,9 +15,9 @@
 Create folders:
 
 ```bash
-mkdir -p ~/secure-remote-cli/server
-mkdir -p ~/secure-remote-cli/logs
-cd ~/secure-remote-cli/server
+mkdir -p ~/Window-cli/server
+mkdir -p ~/Window-cli/logs
+cd ~/Window-cli/server
 ```
 
 Generate TLS files:
@@ -45,14 +45,14 @@ ip addr
 Example:
 
 ```text
-Kali = 192.168.31.251
+Kali = 192.168.3.31
 ```
 
 In `client.py`:
 
 ```python
-SERVER_HOST = "192.168.31.251"
-SERVER_PORT = 8443
+SERVER_HOST = "192.168.3.31"
+SERVER_PORT = 8444
 ```
 
 Replace the example with your current Kali IP.
@@ -61,7 +61,7 @@ In `server.py` keep:
 
 ```python
 HOST = "0.0.0.0"
-PORT = 8443
+PORT = 8444
 ```
 
 Do not put the Windows IP in `server.py`.
@@ -69,21 +69,21 @@ Do not put the Windows IP in `server.py`.
 ## 3. Start Kali Server
 
 ```bash
-cd ~/secure-remote-cli/server
+cd ~/Window-cli/server
 python3 server.py
 ```
 
 Expected:
 
 ```text
-[*] Listening on 0.0.0.0:8443
+[*] Listening on 0.0.0.0:8444
 [*] Waiting for authorized client...
 ```
 
 Check:
 
 ```bash
-sudo ss -lntp | grep 8443
+sudo ss -lntp | grep 8444
 ```
 
 ## 4. Test Windows to Kali
@@ -91,13 +91,13 @@ sudo ss -lntp | grep 8443
 PowerShell:
 
 ```powershell
-ping 192.168.31.251
+ping 192.168.3.31
 ```
 
 Then:
 
 ```powershell
-Test-NetConnection 192.168.31.251 -Port 8443
+Test-NetConnection 192.168.3.31 -Port 8444
 ```
 
 Expected:
@@ -135,7 +135,7 @@ Copy only `client.exe` to the authorized Windows test machine.
 ### Kali
 
 ```bash
-python3 ~/secure-remote-cli/server/server.py
+python3 ~/Window-cli/server/server.py
 ```
 
 ### Windows
@@ -223,43 +223,12 @@ Kali
 Kali:
 
 ```bash
-cat ~/secure-remote-cli/logs/server.log
+cat ~/Window-cli/logs/server.log
 ```
 
 Windows client activity is recorded in `client.log`.
 
-## 10. Troubleshooting
-
-Kali IP:
-
-```bash
-ip addr
-```
-
-Server port:
-
-```bash
-sudo ss -lntp | grep 8443
-```
-
-Windows connection:
-
-```powershell
-Test-NetConnection <KALI_IP> -Port 8443
-```
-
-If Kali's IP changes:
-
-1. Update `SERVER_HOST` in `client.py`.
-2. Rebuild:
-
-```powershell
-pyinstaller --onefile --noconsole --clean client.py
-```
-
-3. Copy the new `dist\client.exe` to Windows.
-
-## 11. Final Setup
+## 10. Final Setup
 
 ```text
 KALI
